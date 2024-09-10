@@ -1,13 +1,34 @@
-const mainheading=document.getElementById('main-heading');
-mainheading.textContent='Fruit World';
-mainheading.style.color='orange';
 
-const header=document.getElementById('header');
-header.style.backgroundColor='green';
-header.style.borderBottom='3px solid orange';
-
-const baskethead=document.getElementById('basket-heading');
-baskethead.style.color='green';
-
-const thank=document.getElementById('thanks');
-thank.innerHTML='<p>Please visit us again</p>';
+const lists=document.querySelectorAll('li');
+lists.forEach((li) => {
+    const edit=document.createElement('button');
+    edit.className='edit-btn';
+    edit.innerText='Edit';
+    li.appendChild(edit);
+});
+const form=document.querySelector('form');
+const fruits=document.querySelector('.fruits');
+form.addEventListener('submit',function(event){
+    event.preventDefault;
+    const fruitToAdd=document.getElementById("fruit-to-add");
+    const newLi=document.createElement('li');
+    const newLiText=document.createTextNode(fruitToAdd.value);
+    newLi.className='fruit';
+    newLi.appendChild(newLiText);
+    const dltbtn =document.createElement('button');
+    dltbtn.innerText='x';
+    dltbtn.className='delete-btn';
+    newLi.appendChild(dltbtn);
+    const edit=document.createElement('button')
+    edit.innerText='Edit';
+    edit.className='edit-btn';
+    newLi.appendChild(edit);
+    fruits.appendChild(newLi);
+    console.log(newLi);
+})
+fruits.addEventListener('click',function(event){
+    if(event.target.classList.contains('delete-btn')){
+        const fruitToDelete=event.target.parentElement;
+        fruits.removeChild(fruitToDelete);
+    }
+})
