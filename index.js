@@ -1,34 +1,46 @@
+const inputdesc=document.createElement('input');
+inputdesc.setAttribute('type','text');
+inputdesc.setAttribute('id','description');
+const form=document.querySelector('form');
+const submitbtn=form.querySelector('button');
+form.insertBefore(inputdesc,submitbtn);
 
 const lists=document.querySelectorAll('li');
-lists.forEach((li) => {
-    const edit=document.createElement('button');
-    edit.className='edit-btn';
-    edit.innerText='Edit';
-    li.appendChild(edit);
-});
-const form=document.querySelector('form');
-const fruits=document.querySelector('.fruits');
-form.addEventListener('submit',function(event){
-    event.preventDefault;
-    const fruitToAdd=document.getElementById("fruit-to-add");
-    const newLi=document.createElement('li');
-    const newLiText=document.createTextNode(fruitToAdd.value);
-    newLi.className='fruit';
-    newLi.appendChild(newLiText);
-    const dltbtn =document.createElement('button');
-    dltbtn.innerText='x';
-    dltbtn.className='delete-btn';
-    newLi.appendChild(dltbtn);
-    const edit=document.createElement('button')
-    edit.innerText='Edit';
-    edit.className='edit-btn';
-    newLi.appendChild(edit);
-    fruits.appendChild(newLi);
-    console.log(newLi);
+lists.forEach((li)=>{
+    const desctoadd=document.getElementById('description');
+    const paradesc=document.createElement('p');
+    const paratext=document.createTextNode(desctoadd.value);
+    paradesc.appendChild(paratext);
+    li.appendChild(paradesc);
+    paradesc.style.fontStyle='italic';
 })
-fruits.addEventListener('click',function(event){
-    if(event.target.classList.contains('delete-btn')){
-        const fruitToDelete=event.target.parentElement;
-        fruits.removeChild(fruitToDelete);
+const filter=document.getElementById('filter');
+filter.addEventListener('keyup',function(event){
+    const textEntered=event.target.value.toLowerCase();
+    const fruitItems=document.getElementsByClassName('fruit');
+    for(let i=0; i<fruitItems.length; i++){
+        const currentFruitName=fruitItems[i].firstChild.textContent.toLowerCase();
+        const currentFruitDesc=fruitItems[i].lastChild.textContent.toLowerCase();
+        if(currentFruitName.indexOf(textEntered)===-1 && currentFruitDesc.indexOf(textEntered)===-1)
+        {
+            fruitItems[i].style.display='none';
+        }
+        else
+        {
+           fruitItems[i].style.display='flex';
+        }
     }
+})
+
+form.addEventListener('submit',function(event){
+    event.preventDefault();
+    const fruitName=document.getElementById('fruit-to-add').value;
+    const fruitdesc=document.getElementById('description').value;
+    if(fruitName==='' || fruitdesc===''){
+        return;
+    }
+    const NewLi=document.createElement('li');
+    NewLi.className='fruit';
+    NewLi.innerHTML=fruitName+'<button class="delete-btn">x</button>'+fruitdesc;
+    lists.appendChild(NewLi);
 })
