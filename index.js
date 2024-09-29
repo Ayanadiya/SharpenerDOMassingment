@@ -1,34 +1,45 @@
+const getBtn = document.getElementById("get-btn");
+const postBtn = document.getElementById("post-btn");
+const putBtn = document.getElementById("put-btn");
+const deleteBtn = document.getElementById("delete-btn");
 
-const lists=document.querySelectorAll('li');
-lists.forEach((li) => {
-    const edit=document.createElement('button');
-    edit.className='edit-btn';
-    edit.innerText='Edit';
-    li.appendChild(edit);
-});
-const form=document.querySelector('form');
-const fruits=document.querySelector('.fruits');
-form.addEventListener('submit',function(event){
-    event.preventDefault;
-    const fruitToAdd=document.getElementById("fruit-to-add");
-    const newLi=document.createElement('li');
-    const newLiText=document.createTextNode(fruitToAdd.value);
-    newLi.className='fruit';
-    newLi.appendChild(newLiText);
-    const dltbtn =document.createElement('button');
-    dltbtn.innerText='x';
-    dltbtn.className='delete-btn';
-    newLi.appendChild(dltbtn);
-    const edit=document.createElement('button')
-    edit.innerText='Edit';
-    edit.className='edit-btn';
-    newLi.appendChild(edit);
-    fruits.appendChild(newLi);
-    console.log(newLi);
-})
-fruits.addEventListener('click',function(event){
-    if(event.target.classList.contains('delete-btn')){
-        const fruitToDelete=event.target.parentElement;
-        fruits.removeChild(fruitToDelete);
-    }
-})
+getBtn.addEventListener("click", getTodos);
+postBtn.addEventListener("click", postTodo);
+putBtn.addEventListener("click", putTodo);
+deleteBtn.addEventListener("click", deleteTodo);
+
+function getTodos() {
+  // Write your code here
+  axios.get("https://crudcrud.com/api/79dad41a37c9441185381c4c9b6885a5/todo")
+  .then(res=>console.log(res)
+  ).catch((error)=>console.log(error)
+  )
+}
+
+function postTodo() {
+  // Write your code here
+   axios.post("https://crudcrud.com/api/79dad41a37c9441185381c4c9b6885a5/todo",{
+    "title": "Learn Axios",  
+    "completed": false,
+   }).then(res=> console.log(res)).catch((error)=>console.log(error)
+   );
+
+}
+
+function putTodo() {
+  // Write your code here
+  axios.put("https://crudcrud.com/api/79dad41a37c9441185381c4c9b6885a5/todo/66f8ecbafe837603e816d76b",{
+    "title": "Learn Axios",
+    "completed": true,
+  })
+  .then((res)=>console.log(res)
+  ).catch((error)=>console.log(error))
+}
+
+function deleteTodo() {
+  // Write your code here
+  axios.delete("https://crudcrud.com/api/79dad41a37c9441185381c4c9b6885a5/todo/66f8ecbafe837603e816d76b")
+  .then((res)=>console.log(res)
+  ).catch((error)=>console.log(error)
+  )
+}
